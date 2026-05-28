@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+
+{% block title %}Szervizelés - PC-MAN{% endblock %}
+
+{% block content %}
+<div class="service-page">
+    <!-- Hero Section -->
+    <div class="hero-section text-center py-5" data-aos="fade-down">
+        <h1>Professzionális Számítógép Szervizelés</h1>
+        <p class="lead">Bízza szakértőinkre számítógépe javítását!</p>
+    </div>
+
+    <!-- Services List -->
+    <div class="services-list container my-5">
+        <div class="row">
+            <div class="col-md-4 mb-4" data-aos="fade-right">
+                <div class="service-item">
+                    <i class="fas fa-laptop-medical service-icon"></i>
+                    <h3>Hardver Javítás</h3>
+                    <ul>
+                        <li>Alkatrész csere</li>
+                        <li>Tisztítás, karbantartás</li>
+                        <li>Teljesítmény optimalizálás</li>
+                        <li>Hűtés javítás</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4" data-aos="fade-up">
+                <div class="service-item">
+                    <i class="fas fa-shield-virus service-icon"></i>
+                    <h3>Szoftver Szolgáltatások</h3>
+                    <ul>
+                        <li>Vírusirtás</li>
+                        <li>Operációs rendszer telepítés</li>
+                        <li>Adatmentés</li>
+                        <li>Program telepítés</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4" data-aos="fade-left">
+                <div class="service-item">
+                    <i class="fas fa-tachometer-alt service-icon"></i>
+                    <h3>Teljesítmény Növelés</h3>
+                    <ul>
+                        <li>RAM bővítés</li>
+                        <li>SSD beépítés</li>
+                        <li>Processzor csere</li>
+                        <li>Videókártya fejlesztés</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Process Section -->
+    <div class="process-section py-5 bg-dark">
+        <div class="container">
+            <h2 class="text-center mb-5" data-aos="fade-up">Szervizelési Folyamat</h2>
+            <div class="row">
+                <div class="col-md-3 text-center mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <h4>Hibafelmérés</h4>
+                        <p>Részletes diagnosztika és árajánlat készítése</p>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <h4>Javítás</h4>
+                        <p>Szakszerű hibaelhárítás</p>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <h4>Tesztelés</h4>
+                        <p>Alapos ellenőrzés</p>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center mb-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <h4>Átadás</h4>
+                        <p>Garanciával</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="contact-section container my-5">
+        <div class="row">
+            <div class="col-md-6" data-aos="fade-right">
+                <h2>Kapcsolat</h2>
+                <p>Keressen minket bizalommal az alábbi elérhetőségeken:</p>
+                <ul class="contact-info">
+                    <li><i class="fas fa-phone"></i> +36 20 123 4567</li>
+                    <li><i class="fas fa-envelope"></i> service@pcman.hu</li>
+                    <li><i class="fas fa-map-marker-alt"></i> 1234 Budapest, Példa utca 1.</li>
+                </ul>
+            </div>
+            <div class="col-md-6" data-aos="fade-left">
+                <div class="working-hours">
+                    <h3>Nyitvatartás</h3>
+                    <ul>
+                        <li>Hétfő - Péntek: 9:00 - 18:00</li>
+                        <li>Szombat: 9:00 - 13:00</li>
+                        <li>Vasárnap: Zárva</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add custom styles -->
+<style>
+.service-page {
+    background-color: #121212;
+    color: #f0f0f0;
+}
+
+.hero-section {
+    background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+    padding: 4rem 0;
+}
+
+.service-item {
+    background: rgba(31, 31, 31, 0.8);
+    padding: 2rem;
+    border-radius: 10px;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.service-item:hover {
+    transform: translateY(-5px);
+}
+
+.service-icon {
+    font-size: 2.5rem;
+    color: #c90404;
+    margin-bottom: 1rem;
+}
+
+.service-item ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.service-item li {
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.service-item li::before {
+    content: "•";
+    color: #c90404;
+    position: absolute;
+    left: 0;
+}
+
+.process-section {
+    background: #1a1a1a;
+}
+
+.process-step {
+    position: relative;
+    padding: 2rem;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    background: #c90404;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-weight: bold;
+}
+
+.contact-info {
+    list-style: none;
+    padding: 0;
+}
+
+.contact-info li {
+    margin-bottom: 1rem;
+}
+
+.contact-info i {
+    color: #c90404;
+    margin-right: 1rem;
+    width: 20px;
+}
+
+.working-hours {
+    background: rgba(31, 31, 31, 0.8);
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.working-hours ul {
+    list-style: none;
+    padding: 0;
+}
+
+.working-hours li {
+    margin-bottom: 0.5rem;
+}
+</style>
+{% endblock %}

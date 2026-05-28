@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Regisztráció - PC-MAN{% endblock %}
+
+{% block content %}
+
+<!-- Flash üzenetek -->
+    <div class="container mt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <form method="POST" action="{{ url_for('register') }}" class="card p-4 shadow no-border-radius" style="background-color: #222; color: #fff;">
+                <h2 class="text-center mb-4">Regisztráció</h2>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Felhasználó név:</label>
+                    <input type="text" name="username" class="form-control" required style="background-color: #333; color: #fff; border: none;">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" name="email" class="form-control" required style="background-color: #333; color: #fff; border: none;">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Jelszó:</label>
+                    <input type="password" name="password" class="form-control" required style="background-color: #333; color: #fff; border: none;">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Regisztráció</button>
+                <p class="text-center mt-3">
+                    <a href="{{ url_for('login') }}" class="text-info highlight-link">Már van fiókja? </a>
+                </p>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

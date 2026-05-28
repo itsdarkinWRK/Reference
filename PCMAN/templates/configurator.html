@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Konfigurátor{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center">PC Konfigurátor</h1>
+    {% if not session.user_id %}
+    <div class="alert alert-warning">
+        A rendelés leadásához kérjük, <a href="{{ url_for('login') }}">jelentkezz be</a> vagy <a href="{{ url_for('register') }}">regisztrálj</a>!
+    </div>
+    {% endif %}
+    
+    <div class="row mt-3">
+        <div class="col-12">
+            <ul class="list-group" id="component-list">
+                <li class="list-group-item">Alaplap <button class="btn btn-primary btn-sm float-end" onclick="openModal('Alaplap')">Hozzáadás</button></li>
+                <li class="list-group-item">Processzor <button class="btn btn-primary btn-sm float-end" onclick="openModal('Processzor')">Hozzáadás</button></li>
+                <li class="list-group-item">Processzorhűtés <button class="btn btn-primary btn-sm float-end" onclick="openModal('Processzorhűtés')">Hozzáadás</button></li>
+                <li class="list-group-item">Videókártya <button class="btn btn-primary btn-sm float-end" onclick="openModal('Videókártya')">Hozzáadás</button></li>
+                <li class="list-group-item">Memória <button class="btn btn-primary btn-sm float-end" onclick="openModal('Memória')">Hozzáadás</button></li>
+                <li class="list-group-item">Merevlemez <button class="btn btn-primary btn-sm float-end" onclick="openModal('Merevlemez')">Hozzáadás</button></li>
+                <li class="list-group-item">SSD <button class="btn btn-primary btn-sm float-end" onclick="openModal('SSD')">Hozzáadás</button></li>
+                <li class="list-group-item">Számítógépház <button class="btn btn-primary btn-sm float-end" onclick="openModal('Számítógépház')">Hozzáadás</button></li>
+                <li class="list-group-item">Tápegység <button class="btn btn-primary btn-sm float-end" onclick="openModal('Tápegység')">Hozzáadás</button></li>
+                <li class="list-group-item">Számítógép hűtő ventilátor <button class="btn btn-primary btn-sm float-end" onclick="openModal('Számítógép hűtő ventilátor')">Hozzáadás</button></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <h4>Konfiguráció</h4>
+        <ul class="list-group" id="config-list"></ul>
+    </div>
+
+    <div class="mt-4">
+        <label for="special-requests">Egyéb kérések:</label>
+        <textarea id="special-requests" class="form-control" rows="3" placeholder="Írd ide különleges igényeidet..."></textarea>
+    </div>
+    <div class="mt-3 text-center">
+        {% if session.user_id %}
+        <button class="btn btn-success" onclick="submitOrder()">Rendelés leadása</button>
+        {% else %}
+        <button class="btn btn-success" disabled title="A rendeléshez be kell jelentkezned!">Rendelés leadása</button>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="componentModal" tabindex="-1" aria-labelledby="componentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="componentModalLabel">Komponens hozzáadása</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Bezárás"></button>
+            </div>
+            <div class="modal-body">
+                <form id="filter-form" class="mb-3">
+                    <!-- Szűrők dinamikusan töltődnek -->
+                </form>
+                <div id="component-results"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bezárás</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/configurator.js') }}"></script>
+{% endblock %}

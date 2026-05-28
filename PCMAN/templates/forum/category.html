@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}{{ category.name }} - Fórum - PC-MAN{% endblock %}
+
+{% block styles %}
+<style>
+.forum-content {
+    background-color: #292929 !important;
+}
+.card {
+    background-color: #333 !important;
+    color: #fff !important;
+}
+.breadcrumb-item a {
+    color: #dc3545 !important;
+    text-decoration: none;
+}
+.breadcrumb-item.active {
+    color: #dc3545 !important;
+}
+.text-muted {
+    color: #adb5bd !important;
+}
+.card-header {
+    background-color: #383838 !important;
+    border-bottom: 1px solid #444 !important;
+}
+.list-group-item {
+    background-color: #333 !important;
+    border-color: #444 !important;
+    color: #fff !important;
+}
+.list-group-item:hover {
+    background-color: #383838 !important;
+}
+a.text-dark {
+    color: #fff !important;
+}
+a.text-dark:hover {
+    color: #dc3545 !important;
+    text-decoration: none;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Breadcrumb piros színnel -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('forum_home') }}" class="text-danger">Fórum</a></li>
+            <li class="breadcrumb-item active text-danger">{{ category.name }}</li>
+        </ol>
+    </nav>
+
+    <!-- Kategória fejléc szürke háttérrel -->
+    <div class="forum-content p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="text-white">
+                {% if category.icon %}
+                    <i class="{{ category.icon }} text-danger me-2"></i>
+                {% endif %}
+                {{ category.name }}
+            </h3>
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('new_topic', category_id=category.id) }}" class="btn btn-danger">
+                    <i class="fas fa-plus me-2"></i> Új téma
+                </a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="btn btn-outline-danger">
+                    <i class="fas fa-sign-in-alt me-2"></i> Jelentkezz be új téma létrehozásához
+                </a>
+            {% endif %}
+        </div>
+
+        {% if category.description %}
+        <div class="alert bg-dark text-white border-secondary mb-4">
+            <i class="fas fa-info-circle text-danger me-2"></i>
+            {{ category.description }}
+        </div>
+        {% endif %}
+
+        <!-- Témák listája -->
+        <div class="topics-container">
+            {% include 'forum/_topics_list.html' %}
+        </div>
+    </div>
+</div>
+
+<!-- Oldal tetejére gomb -->
+<button id="backToTop" class="btn btn-danger position-fixed bottom-0 end-0 m-4" style="display: none;">
+    <i class="fas fa-arrow-up"></i>
+</button>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    // Oldal tetejére gomb
+    $(window).scroll(function() {
+        if ($(this).scrollTop() > 200) {
+            $('#backToTop').fadeIn();
+        } else {
+            $('#backToTop').fadeOut();
+        }
+    });
+
+    $('#backToTop').click(function() {
+        $('html, body').animate({scrollTop : 0}, 800);
+        return false;
+    });
+
+    // Lapozás AJAX-szal
+    $(document).on('click', '.pagination .page-link', function(e) {
+        e.preventDefault();
+        var $link = $(this);
+        var url = $link.attr('href');
+        
+        if (url) {
+            $.get(url, function(response) {
+                if (response.success) {
+                    $('.topics-container').html(response.topics_html);
+                    history.pushState(null, '', url);
+                }
+            });
+        }
+    });
+
+    // Automatikus frissítés 30 másodpercenként
+    function refreshTopics() {
+        var url = window.location.href;
+        $.ajax({
+            url: url,
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            success: function(response) {
+                if (response.success) {
+                    $('.topics-container').html(response.topics_html);
+                }
+            }
+        });
+    }
+
+    // Indítjuk a frissítést
+    setInterval(refreshTopics, 30000);
+
+    // Ha visszajövünk egy témából, frissítjük a listát
+    $(window).on('pageshow', function(event) {
+        if (event.originalEvent.persisted) {
+            refreshTopics();
+        }
+    });
+});
+</script>
+{% endblock %}

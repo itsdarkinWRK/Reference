@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Üdvözlünk a PC-MAN-nél{% endblock %}
+
+{% block content %}
+
+
+<div class="text-center mt-4">
+    <h1>Üdvözlünk a PC-MAN-nél!</h1>
+    <p class="lead">Számítógép szerviz és egyedi PC-k összeállítása.</p>
+</div>
+
+<section id="reviews" class="my-5">
+    <div class="container-fluid p-0">
+        <!-- Első vélemény (kép bal oldalon, szöveg rajta) -->
+        <div class="row">
+            <div class="col-md-6 p-0">
+                <div class="review-image-container">
+                    <img src="/static/images/pc.jpg" class="img-fluid w-100" alt="Review 1">
+                    <div class="review-text-overlay">
+                        <h3 class="text-warning">„Gyors és megbízható szervizelés”</h3>
+                        <p>"Nagyon elégedett vagyok a szolgáltatással! A szerviz időben elkészült, és az új PC összeállítása is zökkenőmentes volt." - Ügyfél</p>
+                        <a href="#" class="btn btn-outline-light">További információ</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 bg-light text-dark p-4 d-flex align-items-center justify-content-center">
+                <h3>Vásárlói vélemények</h3>
+            </div>
+        </div>
+        <!-- Második vélemény (kép jobb oldalon, szöveg rajta) -->
+        <div class="row flex-row-reverse">
+            <div class="col-md-6 p-0">
+                <div class="review-image-container">
+                    <img src="/static/images/pc.jpg" class="img-fluid w-100" alt="Review 2">
+                    <div class="review-text-overlay">
+                        <h3 class="text-warning">„Professzionális ügyfélszolgálat”</h3>
+                        <p>"Nagyon profi csapat, gyors és alapos munkát végeztek! Csak ajánlani tudom őket." - Ügyfél</p>
+                        <a href="#" class="btn btn-outline-light">További információ</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 bg-light text-dark p-4 d-flex align-items-center justify-content-center">
+                <h3>Miért választják ügyfeleink a PC-MAN-t?</h3>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="text-center mt-4">
+    <h1>Üdvözlünk a PC-MAN-nél!</h1>
+    <p class="lead">Számítógép szerviz és egyedi PC-k összeállítása.</p>
+</div>
+
+{% endblock %}

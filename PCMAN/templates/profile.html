@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="nav nav-tabs" id="profileTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" 
+                                type="button" role="tab" aria-controls="profile" aria-selected="true">
+                            Profil Adatok
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="configs-tab" data-bs-toggle="tab" data-bs-target="#configs" 
+                                type="button" role="tab" aria-controls="configs" aria-selected="false">
+                            Saját Konfigurációk
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="profileTabsContent">
+                    <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <form method="POST" action="{{ url_for('profile') }}" class="card p-4 shadow h-100"
+                              style="background-color: #222; color: #fff; border-radius: 0;" enctype="multipart/form-data">
+                            <h3 class="mb-4">Profil Adatok</h3>
+
+                            {% with messages = get_flashed_messages(with_categories=true) %}
+                                {% if messages %}
+                                    {% for category, message in messages %}
+                                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endwith %}
+
+                            <div class="text-center mb-4">
+                                {% if user.profile and user.profile.profile_image %}
+                                    <img src="{{ url_for('static', filename='uploads/' + user.profile.profile_image) }}" 
+                                         class="rounded-circle mb-3" 
+                                         style="width: 150px; height: 150px; object-fit: cover;"
+                                         alt="{{ user.username }}"
+                                         onerror="this.onerror=null; this.src='{{ url_for('static', filename='default-avatar.png') }}';">
+                                {% else %}
+                                    <img src="{{ url_for('static', filename='default-avatar.png') }}"
+                                         class="rounded-circle mb-3"
+                                         style="width: 150px; height: 150px; object-fit: cover;"
+                                         alt="{{ user.username }}">
+                                {% endif %}
+                                <div class="mb-3">
+                                    <label for="profile_image" class="form-label">Profilkép módosítása</label>
+                                    <input type="file" class="form-control" id="profile_image" name="profile_image" accept="image/*">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="full_name" class="form-label">Teljes név</label>
+                                <input type="text" class="form-control" id="full_name" name="full_name" 
+                                       value="{{ user.profile.full_name if user.profile else '' }}" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Szállítási cím</label>
+                                <input type="text" class="form-control" id="address" name="address"
+                                       value="{{ user.profile.address if user.profile else '' }}" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Telefonszám</label>
+                                <input type="tel" class="form-control" id="phone" name="phone"
+                                       value="{{ user.profile.phone if user.profile else '' }}" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Email cím</label>
+                                <input type="email" class="form-control" value="{{ user.email }}" disabled>
+                                <small class="text-muted">Az email cím nem módosítható</small>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Mentés</button>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane fade" id="configs" role="tabpanel" aria-labelledby="configs-tab">
+                        <div class="card p-4 shadow h-100" style="background-color: #222; color: #fff; border-radius: 0;">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h3>Saját Konfigurációk</h3>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newConfigModal">
+                                    Új Konfiguráció
+                                </button>
+                            </div>
+                            
+                            <div class="config-list">
+                                {% if user.configurations %}
+                                    {% for config in user.configurations %}
+                                        <div class="config-item mb-4 p-3" style="background-color: #333; border-radius: 5px;">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <h5 class="mb-0">{{ config.name }}</h5>
+                                                <form method="POST" action="{{ url_for('delete_configuration', config_id=config.id) }}" class="delete-form">
+                                                    <button type="submit" class="btn btn-danger btn-sm">Törlés</button>
+                                                </form>
+                                            </div>
+                                            {% if config.components %}
+                                                {% if config.components.processor %}
+                                                    <div>Processzor: {{ config.components.processor }}</div>
+                                                {% endif %}
+                                                {% if config.components.motherboard %}
+                                                    <div>Alaplap: {{ config.components.motherboard }}</div>
+                                                {% endif %}
+                                                {% if config.components.gpu %}
+                                                    <div>Videókártya: {{ config.components.gpu }}</div>
+                                                {% endif %}
+                                                {% if config.components.ram %}
+                                                    <div>RAM: {{ config.components.ram }}</div>
+                                                {% endif %}
+                                                {% if config.components.psu %}
+                                                    <div>Tápegység: {{ config.components.psu }}</div>
+                                                {% endif %}
+                                                {% if config.components.case %}
+                                                    <div>Gépház: {{ config.components.case }}</div>
+                                                {% endif %}
+                                                {% if config.components.storage %}
+                                                    <div>Tárhely: {{ config.components.storage }}</div>
+                                                {% endif %}
+                                                {% if config.components.cooling %}
+                                                    <div>Hűtés: {{ config.components.cooling }}</div>
+                                                {% endif %}
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="alert alert-info">
+                                        Még nincs mentett konfigurációd. 
+                                        <button type="button" class="btn btn-link alert-link p-0" data-bs-toggle="modal" data-bs-target="#newConfigModal">
+                                            Készíts egyet most!
+                                        </button>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="newConfigModal" tabindex="-1" aria-labelledby="newConfigModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newConfigModalLabel">Új Konfiguráció Létrehozása</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="{{ url_for('create_configuration') }}" id="configForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="configName" class="form-label">Konfiguráció neve</label>
+                        <input type="text" class="form-control" id="configName" name="name" required>
+                    </div>
+                    
+                    <h6 class="mt-4 mb-3">Komponensek</h6>
+                    <div class="mb-3">
+                        <label class="form-label">Processzor</label>
+                        <input type="text" class="form-control" name="processor">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Alaplap</label>
+                        <input type="text" class="form-control" name="motherboard">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Videókártya</label>
+                        <input type="text" class="form-control" name="gpu">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">RAM</label>
+                        <input type="text" class="form-control" name="ram">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tápegység</label>
+                        <input type="text" class="form-control" name="psu">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Gépház</label>
+                        <input type="text" class="form-control" name="case">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tárhely</label>
+                        <input type="text" class="form-control" name="storage">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Hűtés</label>
+                        <input type="text" class="form-control" name="cooling">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+                    <button type="submit" class="btn btn-primary">Létrehozás</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const configForm = document.getElementById('configForm');
+    const deleteForms = document.querySelectorAll('.delete-form');
+    const configsContainer = document.querySelector('#configs .card');
+
+    configForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        try {
+            const response = await fetch(this.action, {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            if (result.success) {
+                const configsWrapper = configsContainer.querySelector('.config-list') || configsContainer;
+                configsWrapper.innerHTML = result.configs_html;
+                
+                const modal = bootstrap.Modal.getInstance(document.getElementById('newConfigModal'));
+                modal.hide();
+                
+                this.reset();
+                
+                attachDeleteHandlers();
+            } else {
+                alert(result.message || 'Hiba történt a mentés során!');
+            }
+        } catch (error) {
+            alert('Hiba történt a mentés során!');
+        }
+    });
+
+    function attachDeleteHandlers() {
+        document.querySelectorAll('.delete-form').forEach(form => {
+            form.addEventListener('submit', handleDelete);
+        });
+    }
+
+    async function handleDelete(e) {
+        e.preventDefault();
+        if (confirm('Biztosan törölni szeretnéd ezt a konfigurációt?')) {
+            try {
+                const response = await fetch(this.action, {
+                    method: 'POST'
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    this.closest('.config-item').remove();
+                } else {
+                    alert(result.message || 'Hiba történt a törlés során!');
+                }
+            } catch (error) {
+                alert('Hiba történt a törlés során!');
+            }
+        }
+    }
+
+    attachDeleteHandlers();
+});
+</script>
+{% endblock %}

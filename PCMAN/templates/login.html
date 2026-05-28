@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Bejelentkezés - PC-MAN{% endblock %}
+
+{% block content %}
+
+<!-- Flash üzenetek -->
+    <div class="container mt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <!-- Bejelentkezés cím -->
+        <div class="col-12">
+            <h2 class="text-left mb-4 text-white" style="margin-left: 100px;">Bejelentkezés</h2>
+        </div>
+
+        <!-- Bejelentkezés és Regisztráció oszlopok -->
+        <div class="col-lg-10 d-flex p-0">
+            <!-- Bejelentkezés doboz -->
+            <div class="col-lg-6 p-0">
+                <form method="POST" action="{{ url_for('login') }}" class="card p-4 shadow h-100"
+                      style="background-color: #222; color: #fff; border-radius: 0;">
+                    <div class="mb-3">
+                        <label for="credential" class="form-label">Felhasználónév vagy Email</label>
+                        <input type="text" id="credential" name="credential" class="form-control" required
+                               style="background-color: #333; color: #fff; border: none;">
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Jelszó</label>
+                        <input type="password" id="password" name="password" class="form-control" required
+                               style="background-color: #333; color: #fff; border: none;">
+                    </div>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" id="remember" name="remember" class="form-check-input">
+                        <label for="remember" class="form-check-label">Emlékezz rám</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Bejelentkezés</button>
+                    <p class="text-center mt-3">
+                        <a href="" class="text-info highlight-link">Elfelejtett jelszó?</a>
+                    </p>
+                </form>
+            </div>
+
+            <!-- Regisztráció doboz -->
+            <div class="col-lg-6 p-0">
+                <div class="p-4 shadow h-100" style="background-color: #292929; color: #fff; border-radius: 0; border-left: 1px solid #ccc;">
+                    <h3 class="mb-3">Új vagy itt?</h3>
+                    <p>Hozz létre egy új fiókot most!</p>
+                    <a href="{{ url_for('register') }}" class="btn btn-secondary mt-3">Regisztráció</a>
+                    <hr class="mb-4">
+                    <a href="" >Sample</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

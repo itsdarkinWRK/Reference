@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+
+{% block title %}{{ topic.title }} - Fórum - PC-MAN{% endblock %}
+
+{% block styles %}
+<style>
+.forum-content {
+    background-color: #292929 !important;
+}
+.card {
+    background-color: #333 !important;
+    color: #fff !important;
+}
+.breadcrumb-item a {
+    color: #dc3545 !important;
+    text-decoration: none;
+}
+.breadcrumb-item.active {
+    color: #dc3545 !important;
+}
+.text-muted {
+    color: #adb5bd !important;
+}
+.card-header {
+    background-color: #383838 !important;
+    border-bottom: 1px solid #444 !important;
+}
+.form-control {
+    background-color: #444 !important;
+    border-color: #555 !important;
+    color: #fff !important;
+}
+.form-control:focus {
+    background-color: #4a4a4a !important;
+    border-color: #dc3545 !important;
+    color: #fff !important;
+}
+.form-label {
+    color: #fff !important;
+}
+h3, h4, h5, h6 {
+    color: #fff !important;
+}
+.alert-info {
+    background-color: #383838 !important;
+    border-color: #444 !important;
+    color: #fff !important;
+}
+.alert-info .alert-link {
+    color: #dc3545 !important;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('forum_home') }}">Fórum</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('forum_category', category_id=topic.category.id) }}">{{ topic.category.name }}</a></li>
+            <li class="breadcrumb-item active">{{ topic.title }}</li>
+        </ol>
+    </nav>
+
+    <!-- Téma fejléc -->
+    <div class="forum-content p-4">
+        <div class="card mb-4">
+            <div class="card-header bg-light">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">
+                        {% if topic.is_pinned %}<i class="fas fa-thumbtack text-danger me-2"></i>{% endif %}
+                        {% if topic.is_locked %}<i class="fas fa-lock text-secondary me-2"></i>{% endif %}
+                        {{ topic.title }}
+                    </h3>
+                    <div>
+                        <span class="badge bg-secondary me-2">
+                            <i class="fas fa-eye me-1"></i> {{ topic.view_count }}
+                        </span>
+                        <span class="badge bg-secondary">
+                            <i class="fas fa-comments me-1"></i> {{ topic.replies|length }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <!-- Szerző info -->
+                    <div class="col-md-2 text-center">
+                        {% if topic.author and topic.author.profile and topic.author.profile.profile_image %}
+                            <img src="{{ url_for('static', filename='uploads/' + topic.author.profile.profile_image) }}"
+                                 class="rounded-circle mb-2" alt="Avatar" style="width: 80px; height: 80px; object-fit: cover;">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='images/default-avatar.png') }}"
+                                 class="rounded-circle mb-2" alt="Avatar" style="width: 80px; height: 80px; object-fit: cover;">
+                        {% endif %}
+                        <h6>{{ topic.author.username if topic.author else 'Ismeretlen' }}</h6>
+                        <small class="text-muted">
+                            <i class="fas fa-clock me-1"></i>
+                            {{ topic.created_at.strftime('%Y-%m-%d %H:%M') }}
+                        </small>
+                    </div>
+                    <!-- Téma tartalma -->
+                    <div class="col-md-10">
+                        <div class="topic-content">
+                            {{ topic.content|safe }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Válaszok -->
+        <div class="replies-container mb-4">
+            {% include 'forum/_replies_list.html' %}
+        </div>
+
+        <!-- Válasz űrlap -->
+        {% if session.get('user_id') and not topic.is_locked %}
+        <div class="card">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Válasz írása</h5>
+            </div>
+            <div class="card-body">
+                <form id="replyForm" action="{{ url_for('reply_to_topic', topic_id=topic.id) }}" method="POST">
+                    <div class="mb-3">
+                        <textarea id="replyContent" name="content" class="form-control" rows="5" required></textarea>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane me-1"></i> Küldés
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% elif topic.is_locked %}
+        <div class="alert alert-warning">
+            <i class="fas fa-lock me-2"></i> Ez a téma le van zárva, nem lehet új választ írni.
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            A válaszíráshoz be kell jelentkezned.
+            <a href="{{ url_for('login') }}" class="alert-link">Jelentkezz be</a> vagy
+            <a href="{{ url_for('register') }}" class="alert-link">regisztrálj</a>!
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Oldal tetejére gomb -->
+<button id="backToTop" class="btn btn-primary position-fixed bottom-0 end-0 m-4" style="display: none;">
+    <i class="fas fa-arrow-up"></i>
+</button>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    // Válasz form kezelése
+    $('#replyForm').on('submit', function(e) {
+        e.preventDefault();
+
+        var form = $(this);
+        var submitBtn = form.find('button[type="submit"]');
+        var content = form.find('textarea[name="content"]').val();
+
+        // Gomb letiltása
+        submitBtn.prop('disabled', true);
+
+        $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: {
+                content: content
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Válaszok frissítése AJAX-szal
+                    $.ajax({
+                        url: window.location.pathname,
+                        type: 'GET',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                $('.replies-container').html(response.replies_html);
+
+                                // Form törlése
+                                form.find('textarea[name="content"]').val('');
+
+                                // Sikeres üzenet
+                                showAlert('success', 'Válasz sikeresen elküldve!');
+
+                                // Görgetés az új válaszhoz
+                                $('html, body').animate({
+                                    scrollTop: $('.replies-container .card:first').offset().top - 100
+                                }, 500);
+                            }
+                        }
+                    });
+                } else {
+                    showAlert('danger', response.message);
+                }
+            },
+            error: function() {
+                showAlert('danger', 'Hiba történt a válasz küldése során!');
+            },
+            complete: function() {
+                submitBtn.prop('disabled', false);
+            }
+        });
+    });
+
+    // Upvote kezelése
+    $(document).on('click', '.upvote-btn', function(e) {
+        e.preventDefault();
+        var $btn = $(this);
+        var replyId = $btn.data('reply-id');
+
+        console.log('Upvote clicked for reply:', replyId);
+
+        $btn.prop('disabled', true);
+
+        $.ajax({
+            url: "{{ url_for('upvote_reply', reply_id=0) }}".replace('0', replyId),
+            type: 'POST',
+            success: function(response) {
+                console.log('Upvote response:', response);
+                if (response.success) {
+                    // Upvote szám frissítése
+                    $btn.find('.upvote-count').text(response.upvotes);
+
+                    // Gomb stílus azonnali váltása
+                    if (response.has_upvoted) {
+                        $btn.removeClass('btn-outline-primary').addClass('btn-primary');
+                    } else {
+                        $btn.removeClass('btn-primary').addClass('btn-outline-primary');
+                    }
+
+                    // Sikeres üzenet
+                    showAlert('success', response.message);
+                } else {
+                    showAlert('danger', response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Upvote error:', {xhr: xhr, status: status, error: error});
+                showAlert('danger', 'Hiba történt az upvote során!');
+            },
+            complete: function() {
+                $btn.prop('disabled', false);
+            }
+        });
+    });
+
+    // Alert megjelenítése
+    function showAlert(type, message) {
+        var alertHtml = '<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert">' +
+                       message +
+                       '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                       '</div>';
+
+        $('#alertContainer').html(alertHtml);
+
+        // 5 másodperc után eltűnik
+        setTimeout(function() {
+            $('.alert').alert('close');
+        }, 5000);
+    }
+});
+</script>
+{% endblock %}

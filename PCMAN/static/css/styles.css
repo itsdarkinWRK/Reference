@@ -1,0 +1,523 @@
+/* Általános beállítások */
+html{
+    height: 100% !important;
+}
+
+body {
+    background-color: #121212;
+    color: #f0f0f0;
+}
+
+/* Navbar középre igazítás */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background-color: #131213 !important;
+}
+
+.nav-link {
+    padding: 0.5rem 1rem;
+    text-align: center;
+}
+
+.navbar-toggler {
+    margin-top: 0.5rem; /* Igazítás mobil eszközökhöz */
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-brand, .nav-link {
+    color: #f0f0f0 !important;
+}
+
+.list-group-item {
+    border: none !important; /* Szegély eltávolítása */
+    border-radius: 0 !important; /* Lekerekítés eltávolítása */
+    background-color: #1f1f1f !important; /* Háttérszín beállítása */
+    color: white; /* Szöveg színének beállítása, hogy látható legyen a sötét háttéren */
+}
+
+.list-group-item:hover {
+    background-color: #1f1f1f !important; /* Hover állapot színének beállítása */
+}
+
+/* Carousel szöveg középre igazítása */
+.carousel-caption {
+    bottom: auto;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+.image-section {
+    width: 50%; /* A kép súlypontja */
+    text-align: center; /* A kép középre igazítása */
+    padding: 1rem;
+}
+
+
+.text-section {
+    width: 50%; /* A szöveg súlypontja */
+    padding: 1rem;
+}
+
+/* footer tartalom */
+.footer-container {
+    flex: 1;
+    margin-top: 1rem;
+}
+
+/* Flash üzenetek */
+.alert {
+    background-color: #121212;
+    color: #f0f0f0;
+}
+
+
+/* Formázás a szövegmezőkhöz */
+.form-control {
+    background-color: #1f1f1f; /* Sötét háttér */
+    color: #f0f0f0; /* Világos szöveg */
+    border: 1px solid #3a3a3a; /* Halványabb szegély */
+}
+
+.form-control::placeholder {
+    color: #757575; /* Halványabb szürke a placeholder szöveghez */
+    opacity: 1; /* Átlátszóság beállítása */
+}
+
+.form-control:focus {
+    background-color: #292929; /* Enyhén világosabb, ha fókuszban van */
+    border-color: #c90404; /* Piros szegély fókuszállapotban */
+    color: #f0f0f0; /* Világos szöveg fókuszban is */
+    outline: none; /* Alapértelmezett outline eltávolítása */
+    box-shadow: 0 0 5px #c90404; /* Piros ragyogás a fókuszban lévő mezőhöz */
+}
+
+.footer-bar {
+    height: 5px;
+    background-color: #c40814; /* Sötétebb piros szín */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    filter: brightness(0.5); /* Csökkenti a fényességet 50%-ra */
+}
+
+/* Sponsors div beállítások */
+.sponsors {
+    background-color: #1f1f1f;
+    padding: 2rem 0; /* Nagyobb felső és alsó margó */
+    display: flex; /* Flexbox használata az igazításhoz */
+    justify-content: center; /* Középre igazítás vízszintesen */
+    flex-wrap: wrap; /* Szükség szerint több sorban */
+}
+
+/* Sponsors logók méretezése */
+.sponsors .logo {
+    max-height: 100px; /* Logók nagyobb mérete */
+    max-width: 150px; /* Szélesség korlátozása */
+    filter: brightness(0) invert(1); /* Sötét háttérhez megfelelő kontraszt */
+    transition: transform 0.3s ease; /* Hover animáció */
+}
+
+.sponsors .logo:hover {
+    transform: scale(1.2); /* Hover esetén nagyítás */
+}
+
+.modal-dialog {
+    max-width: 80% !important;
+}
+
+.modal-content {
+    background-color: #131213 !important;
+    color: #f0f0f0 !important;
+    border-radius: 0 !important; /* Lekerekítések eltávolítása */
+}
+.modal-header, .modal-footer {
+    border-color: #3a3a3a;
+}
+.modal-header .btn-close {
+    filter: invert(1);
+}
+
+footer {
+        background-color: #131213 !important;
+        color: #f0f0f0;
+    }
+
+footer h5 {
+    color: #c40814;
+    filter: brightness(0.8);
+}
+
+footer a {
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+    color: #c40814;
+    filter: brightness(0.8);
+}
+
+footer .row.align-items-center.text-center p {
+    margin: 0;
+}
+
+#reviews .bg-dark {
+    background-color: #1f1f1f !important;
+}
+#reviews .bg-light {
+    background-color: #f8f9fa !important;
+}
+
+/* Vélemény szekció képek és szöveg */
+/* Vélemény szekció képek és szöveg */
+.review-image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.review-image-container img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Kép megfelelő arányban marad */
+}
+
+.review-text-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex; /* Flexbox a középre igazításhoz */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.7); /* Sötét áttetsző háttér */
+    color: #f0f0f0;
+    padding: 2rem;
+    text-align: center;
+    border-radius: 0; /* Eltávolítottam a sarkok lekerekítését */
+    box-sizing: border-box; /* Paddinget is figyelembe veszi */
+}
+
+.review-text-overlay h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.review-text-overlay p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.review-text-overlay .btn {
+    margin-top: 1rem;
+}
+
+/* Responsive igazítás */
+@media (max-width: 768px) {
+    .review-text-overlay {
+        padding: 1rem;
+    }
+    .review-text-overlay h3 {
+        font-size: 1.5rem;
+    }
+    .review-text-overlay p {
+        font-size: 0.9rem;
+    }
+}
+
+.bg-dark {
+    background-color: #131213 !important;
+}
+
+.lg-container{
+    background-color: #131213 !important;
+}
+
+/* Gombok általános beállítása */
+.btn, .btn-primary {
+    border-radius: 0; /* Lekerekítés eltávolítása */
+    background-color: #c40814 !important; /* Piros háttérszín */
+    border: none; /* Szegély eltávolítása */
+    color: #f0f0f0; /* Szöveg színe */
+    text-transform: uppercase; /* Nagybetűsítés */
+    padding: 0.75rem 1.5rem; /* Gomb mérete */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Animáció */
+}
+
+/* Hover és fókusz állapotok */
+.btn:hover, .btn-primary:hover, .btn:focus, .btn-primary:focus {
+    background-color: #a30611 !important; /* Sötétebb piros hover/fókusz állapot */
+    transform: scale(1.05); /* Finom nagyítás hover esetén */
+    color: #ffffff; /* Kontrasztosabb szöveg */
+}
+
+/* Kisebb gomb méret a mobilhoz */
+@media (max-width: 768px) {
+    .btn, .btn-primary {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Csak a kiemelt linkek stílusa */
+.highlight-link {
+    color: #c40814 !important;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    filter: brightness(0.9);
+}
+
+/* Hover állapot */
+.highlight-link:hover {
+    color: #a30611 !important; /* Sötétebb árnyalat hover állapotban */
+    text-decoration: underline; /* Aláhúzás hover esetén */
+}
+
+/* Aktív állapot */
+.highlight-link:active {
+    color: #e61020 !important; /* Világosabb árnyalat kattintáskor */
+}
+
+/* Fókusz állapot */
+.highlight-link:focus {
+    outline: none; /* Böngésző alapértelmezett fókuszkeretének eltávolítása */
+    color: #ff475a !important; /* Legvilágosabb árnyalat fókuszban */
+}
+
+.no-border-radius {
+    border-radius: 0 !important;
+}
+
+/* Modal kép stílusa */
+.img-thumbnail {
+    border-radius: 8px;
+}
+
+/* Modális gombok egységesítése */
+.modal .btn-primary {
+    margin-top: 5px;
+}
+
+/* Komponenslista szűkítése */
+#component-list li {
+    font-size: 0.9rem;
+}
+
+#component-results .d-flex {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.nav-tabs {
+        border-bottom: 1px solid #444;
+}
+
+.nav-tabs .nav-link {
+    color: #fff;
+    background-color: #333;
+    border: 1px solid #444;
+    margin-right: 5px;
+}
+
+.nav-tabs .nav-link:hover {
+    border-color: #555;
+    background-color: #444;
+}
+
+.nav-tabs .nav-link.active {
+    color: #fff;
+    background-color: #222;
+    border-color: #444 #444 #222;
+}
+
+.modal-content {
+    background-color: #333;
+    color: #fff;
+}
+
+.modal-header, .modal-footer {
+    border-color: #444;
+}
+
+.form-control {
+    background-color: #444;
+    color: #fff;
+    border-color: #555;
+}
+
+.form-control:focus {
+    background-color: #555;
+    color: #fff;
+    border-color: #666;
+}
+
+.content-wrapper {
+    min-height: calc(100vh - 60px);
+    padding: 20px 0;
+}
+
+.tab-content {
+    min-height: 600px;
+}
+
+.tab-pane {
+    height: 100%;
+}
+
+/* Új animációs stílusok */
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 1s ease-in forwards;
+}
+
+.fade-in-delay {
+    opacity: 0;
+    animation: fadeIn 1s ease-in forwards;
+    animation-delay: 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Services Section */
+.services-section {
+    padding: 4rem 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    background: #121212;
+}
+
+.service-card {
+    background: rgba(31, 31, 31, 0.8);
+    padding: 2rem;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(201, 4, 4, 0.1), rgba(31, 31, 31, 0));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(201, 4, 4, 0.2);
+}
+
+.service-card:hover::before {
+    opacity: 1;
+}
+
+.service-card h3 {
+    color: #f0f0f0;
+    margin: 1rem 0;
+    transition: color 0.3s ease;
+}
+
+.service-card:hover h3 {
+    color: #c90404;
+}
+
+.service-card p {
+    color: #f0f0f0;
+    margin: 0;
+}
+
+.service-icon {
+    font-size: 2.5rem;
+    color: #c90404;
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.service-card:hover .service-icon {
+    transform: scale(1.1);
+}
+
+/* About Section */
+.about-section {
+    padding: 4rem 0;
+    background: linear-gradient(to bottom, #1a1a1a, #121212);
+}
+
+.about-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    padding: 0 1rem;
+}
+
+.about-text {
+    flex: 1;
+}
+
+.about-text h2 {
+    color: #c90404;
+    margin-bottom: 1.5rem;
+}
+
+.about-text ul {
+    list-style: none;
+    padding: 0;
+}
+
+.about-text li {
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+}
+
+.technician-image {
+    flex: 1;
+    text-align: center;
+}
+
+.technician-image img {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Reszponzív beállítások */
+@media (max-width: 768px) {
+    .about-content {
+        flex-direction: column;
+    }
+    
+    .technician-image {
+        order: -1;
+    }
+    
+    .service-card {
+        width: 100%;
+        max-width: 300px;
+    }
+}

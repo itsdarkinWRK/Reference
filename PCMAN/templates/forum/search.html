@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Keresés: {{ query }} - Fórum - PC-MAN{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('forum_home') }}">Fórum</a></li>
+            <li class="breadcrumb-item active">Keresés: {{ query }}</li>
+        </ol>
+    </nav>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>Keresési találatok: "{{ query }}"</h3>
+        <form action="{{ url_for('forum_search') }}" method="GET" class="d-flex">
+            <input type="text" name="q" class="form-control me-2" value="{{ query }}" placeholder="Keresés a fórumban...">
+            <button type="submit" class="btn btn-outline-primary">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+    </div>
+
+    {% if topics.items %}
+        <div class="card">
+            <div class="card-body">
+                <div class="topics-container">
+                    {% include 'forum/_topics_list.html' %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            Nincs találat a keresési feltételekre.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    // AJAX lapozás kezelése
+    $(document).on('click', '.pagination .page-link', function(e) {
+        e.preventDefault();
+        var $link = $(this);
+        var url = $link.attr('href');
+        
+        if (url) {
+            $.get(url, function(response) {
+                if (response.success) {
+                    $('.topics-container').html(response.topics_html);
+                    history.pushState(null, '', url);
+                    $('.pagination').replaceWith($(response.topics_html).find('.pagination'));
+                }
+            });
+        }
+    });
+});
+</script>
+{% endblock %}

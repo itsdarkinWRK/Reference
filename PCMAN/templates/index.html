@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Üdvözlünk a PC-MAN-nél{% endblock %}
+
+{% block content %}
+<!-- Slideshow -->
+<div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="/static/images/slide1.jpg" class="d-block w-100" alt="Slide 1">
+            <div class="carousel-caption d-none d-md-block text-start ms-3">
+                <h5>Fedezd fel a PC-MAN szolgáltatásait</h5>
+                <a href="{{ url_for('configurator') }}" class="btn btn-primary">Tovább a konfigurátorhoz</a>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="/static/images/slide2.jpg" class="d-block w-100" alt="Slide 2">
+            <div class="carousel-caption d-none d-md-block text-start ms-3">
+                <h5>Javítás és diagnosztika</h5>
+                <a href="#" class="btn btn-primary">További információ</a>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Előző</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Következő</span>
+    </button>
+</div>
+
+<div class="text-center mt-4">
+    <h1 class="fade-in">Üdvözlünk a PC-MAN-nél!</h1>
+    <p class="lead fade-in-delay">Számítógép szerviz és egyedi PC-k összeállítása.</p>
+</div>
+
+<!-- Services Section -->
+<div class="services-section">
+    <a href="{{ url_for('service') }}" class="service-card" data-aos="zoom-in">
+        <div class="service-icon">
+            <i class="fas fa-tools"></i>
+        </div>
+        <h3>Professzionális Szervizelés</h3>
+        <p>Szakértő csapatunk gyorsan és precízen javítja számítógépét</p>
+    </a>
+    
+    <a href="{{ url_for('configurator') }}" class="service-card" data-aos="zoom-in" data-aos-delay="200">
+        <div class="service-icon">
+            <i class="fas fa-desktop"></i>
+        </div>
+        <h3>Egyedi PC Építés</h3>
+        <p>Az Ön igényeire szabott számítógép-konfiguráció</p>
+    </a>
+    
+    <a href="{{ url_for('diagnostics') }}" class="service-card" data-aos="zoom-in" data-aos-delay="400">
+        <div class="service-icon">
+            <i class="fas fa-diagnoses"></i>
+        </div>
+        <h3>Diagnosztika</h3>
+        <p>Pontos hibafeltárás és költséghatékony megoldások</p>
+    </a>
+</div>
+
+<!-- About Us Section -->
+<div class="about-section">
+    <div class="about-content" data-aos="fade-up">
+        <div class="about-text">
+            <h2>Miért válasszon minket?</h2>
+            <ul>
+                <li>✓ Több éves szakmai tapasztalat</li>
+                <li>✓ Gyors és megbízható szolgáltatás</li>
+                <li>✓ Versenyképes árak</li>
+                <li>✓ Garanciális javítások</li>
+                <li>✓ Folyamatos ügyfélszolgálat</li>
+            </ul>
+        </div>
+        <div class="technician-image" data-aos="fade-left">
+            <img src="/static/images/technician.png" alt="Szakértő szerelő">
+        </div>
+    </div>
+</div>
+
+<!-- Add AOS.js and its CSS -->
+{% block extra_head %}
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %}
