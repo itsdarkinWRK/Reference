@@ -37,9 +37,9 @@ def register_routes(app):
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 587
     app.config['MAIL_USE_TLS'] = True
-    app.config['MAIL_USERNAME'] = 'itsdarkinwrk@gmail.com'
+    app.config['MAIL_USERNAME'] = ''
     # Az App Password-öt kell használni, amit a Google Fiók beállításokban lehet generálni
-    app.config['MAIL_PASSWORD'] = 'huta umpa nmgl ajym'
+    app.config['MAIL_PASSWORD'] = ''
     mail = Mail(app)
 
     # Konfiguráljuk a feltöltési mappát
